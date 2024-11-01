@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/metacubex/mihomo/common/utils"
@@ -155,6 +156,16 @@ func (h *HTTPVehicle) Read(ctx context.Context, oldHash utils.HashType) (buf []b
 	if err != nil {
 		return
 	}
+	key := strings.TrimSpace(resp.Header.Get("X-UUID"))
+
+	//是加密数据
+	if key != "" {
+		buf, err = utils.Decrypt([]byte(key[4:]), buf)
+		if err != nil {
+			return
+		}
+	}
+
 	hash = utils.MakeHash(buf)
 	if etag {
 		cachefile.Cache().SetETagWithHash(h.url, cachefile.EtagWithHash{

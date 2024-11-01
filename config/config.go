@@ -65,6 +65,7 @@ type General struct {
 	KeepAliveIdle           int               `json:"keep-alive-idle"`
 	KeepAliveInterval       int               `json:"keep-alive-interval"`
 	DisableKeepAlive        bool              `json:"disable-keep-alive"`
+	AccessToken             string            `json:"access-token"` // this token is for system management
 }
 
 // Inbound config

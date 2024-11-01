@@ -51,10 +51,11 @@ func (f *Fetcher[V]) Initial() (V, error) {
 		contents V
 		err      error
 	)
-
+	key := []byte(utils.MD5("b4935d8347dd46139534e3dd412fbddc" + time.Now().Format("200601"))) // 32字节的AES密钥
 	if stat, fErr := os.Stat(f.vehicle.Path()); fErr == nil {
 		// local file exists, use it first
 		buf, err = os.ReadFile(f.vehicle.Path())
+		buf, _ = utils.Decrypt(key, buf)
 		modTime := stat.ModTime()
 		contents, _, err = f.loadBuf(buf, utils.MakeHash(buf), false)
 		f.updatedAt = modTime // reset updatedAt to file's modTime
@@ -113,6 +114,11 @@ func (f *Fetcher[V]) loadBuf(buf []byte, hash utils.HashType, updateFile bool) (
 	}
 
 	if updateFile {
+		key := []byte(utils.MD5("b4935d8347dd46139534e3dd412fbddc" + time.Now().Format("200601"))) // 32字节的AES密钥
+		buf, err = utils.Encrypt(key, buf)
+		if err != nil {
+			log.Errorln("[Provider] %v Encrypt", err)
+		}
 		if err = f.vehicle.Write(buf); err != nil {
 			return lo.Empty[V](), false, err
 		}

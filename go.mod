@@ -60,6 +60,8 @@ require (
 	lukechampine.com/blake3 v1.3.0
 )
 
+require github.com/super-l/machine-code v0.0.0-20240104080917-14388119a8dd
+
 require (
 	github.com/RyuaNerin/go-krypto v1.2.4 // indirect
 	github.com/Yawning/aez v0.0.0-20211027044916-e49e68abd344 // indirect

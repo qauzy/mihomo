@@ -194,7 +194,6 @@ func UpR(uuid string, url string) (err error) {
 	// 添加token到请求头
 	req.Header.Set("Authorization", "Bearer "+conf.General.AccessToken)
 	req.Header.Set("X-Version", x.VERSION)
-	req.Header.Set("X-UUID", x.MachineData.PlatformUUID+"-"+x.MachineData.BoardSerialNumber+"-L")
 
 	// 发送请求
 	resp, err := buildClient().Do(req)

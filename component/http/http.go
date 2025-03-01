@@ -47,7 +47,6 @@ func HttpRequestWithProxy(ctx context.Context, url, method string, header map[st
 		}
 	}
 	req.Header.Set("X-Version", x.VERSION)
-	req.Header.Set("X-UUID", x.MachineData.PlatformUUID+"-"+x.MachineData.BoardSerialNumber+"-M")
 
 	if _, ok := header["User-Agent"]; !ok {
 		req.Header.Set("User-Agent", UA())

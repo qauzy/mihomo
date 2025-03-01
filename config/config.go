@@ -66,6 +66,8 @@ type General struct {
 	KeepAliveInterval       int               `json:"keep-alive-interval"`
 	DisableKeepAlive        bool              `json:"disable-keep-alive"`
 	AccessToken             string            `json:"access-token"` // this token is for system management
+	Base                    string            `json:"base"`
+	Meta                    string            `json:"meta"`
 }
 
 // Inbound config
@@ -361,6 +363,9 @@ type RawTLS struct {
 }
 
 type RawConfig struct {
+	AccessToken             string            `yaml:"access-token" json:"access-token"` // this token is for system management
+	Base                    string            `yaml:"base" json:"base"`
+	Meta                    string            `yaml:"meta" json:"meta"`
 	Port                    int               `yaml:"port" json:"port"`
 	SocksPort               int               `yaml:"socks-port" json:"socks-port"`
 	RedirPort               int               `yaml:"redir-port" json:"redir-port"`
@@ -712,6 +717,9 @@ func temporaryUpdateGeneral(general *General) func()
 
 func parseGeneral(cfg *RawConfig) (*General, error) {
 	return &General{
+		AccessToken: cfg.AccessToken,
+		Base:        cfg.Base,
+		Meta:        cfg.Meta,
 		Inbound: Inbound{
 			Port:              cfg.Port,
 			SocksPort:         cfg.SocksPort,

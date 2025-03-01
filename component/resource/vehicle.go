@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	DefaultHttpTimeout = time.Second * 20
+	DefaultHttpTimeout = time.Second * 30
 
 	fileMode os.FileMode = 0o666
 	dirMode  os.FileMode = 0o755
@@ -161,6 +161,9 @@ func (h *HTTPVehicle) Read(ctx context.Context, oldHash utils.HashType) (buf []b
 	//是加密数据
 	if key != "" {
 		buf, err = utils.Decrypt([]byte(key[4:]), buf)
+		if err != nil {
+			buf, err = utils.Decrypt([]byte(key[6:]), buf)
+		}
 		if err != nil {
 			return
 		}
